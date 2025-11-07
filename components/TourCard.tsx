@@ -1,26 +1,45 @@
-
 import React from 'react';
 import { Tour } from '../types';
+import { EditIcon } from './icons/Icons';
 
 interface TourCardProps {
   tour: Tour;
   onClick: () => void;
+  isAdmin?: boolean;
+  onEdit?: () => void;
 }
 
-const TourCard: React.FC<TourCardProps> = ({ tour, onClick }) => {
+const TourCard: React.FC<TourCardProps> = ({ tour, onClick, isAdmin = false, onEdit }) => {
+  
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onEdit) {
+      onEdit();
+    }
+  };
+
   return (
     <div
       onClick={onClick}
-      className="flex items-center bg-slate-800 p-3 rounded-lg shadow-md cursor-pointer hover:bg-slate-700 transition-all duration-300 transform hover:scale-[1.02]"
+      className="relative flex items-center bg-white p-3 rounded-lg shadow-md cursor-pointer hover:bg-gray-50 transition-all duration-300 transform hover:scale-[1.02] border border-gray-200/80"
     >
+      {isAdmin && tour.isPromo && (
+        <button 
+          onClick={handleEditClick}
+          className="absolute top-2 right-2 bg-sky-500 text-white rounded-full p-1.5 shadow-lg hover:bg-sky-600 transition-colors z-10"
+          aria-label={`Editar ${tour.title}`}
+        >
+          <EditIcon className="w-4 h-4" />
+        </button>
+      )}
       <div className="flex-1 pr-4">
-        <h3 className="font-bold text-base md:text-lg text-white">{tour.title}</h3>
-        {tour.details && <p className="text-xs text-teal-400 mb-1">{tour.details}</p>}
-        <p className="text-sm text-gray-400 h-10 overflow-hidden leading-5">
+        <h3 className="font-bold text-base md:text-lg text-slate-900">{tour.title}</h3>
+        {tour.details && <p className="text-xs text-sky-500 mb-1">{tour.details}</p>}
+        <p className="text-sm text-gray-600 h-10 overflow-hidden leading-5">
           {tour.shortDescription}
         </p>
         <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-lg font-bold text-amber-400">
+          <span className="text-lg font-bold text-amber-500">
             R$ {tour.promoPrice.toFixed(2).replace('.', ',')}
           </span>
           {tour.originalPrice && (

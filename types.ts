@@ -10,6 +10,8 @@ export interface Tour {
   isPromo?: boolean;
   discount?: string;
   details?: string;
+  priceLabel?: string;
+  isPackage?: boolean;
 }
 
 export interface Category {

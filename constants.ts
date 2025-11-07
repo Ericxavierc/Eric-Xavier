@@ -1,17 +1,68 @@
-
 import { Tour, Category } from './types';
 
 export const PROMOTIONS: Tour[] = [
   {
     id: 1,
-    title: "Combo Litoral Sul - Francês & Gunga",
-    shortDescription: "Descubra dois paraísos imperdíveis no mesmo dia: as piscinas naturais...",
-    fullDescription: "Descubra dois paraísos imperdíveis no mesmo dia: as piscinas naturais do Francês e o visual exuberante do Gunga. Inclui transporte ida e volta + guia.",
-    originalPrice: 159.90,
-    promoPrice: 139.90,
-    image: "https://picsum.photos/seed/francesgunga/400/400",
+    title: "COMBO 3 DIAS DE PASSEIO",
+    shortDescription: "Pacote de 3 dias: Gunga (quadriciclo), Milagres (jangada) e Maragogi (lancha). Privativo!",
+    fullDescription: `*COMBO 3 DIAS DE PASSEIO*
+
+*PRIMEIRO DIA:*
+Francês, Barra e Gunga.
+Paradas durante o roteiro:
+- Francês para foto no letreiro 📸
+- Pracinha Vivar 📸
+- Mirante do Gunga 📸
+- Rota dos coqueirais 🌴📸
+
+*INCLUSO PASSEIO DE QUADRICICLO:*
+- Falésias do Gunga para tirar fotos. 
+- Lagoa de Roteiro para se banhar. 
+Duração: 1:10h ⏱️
+________________________
+
+*SEGUNDO DIA:*
+São Miguel dos Milagres.
+Paradas durante o roteiro:
+- Fonte milagrosa 📸
+- Igreja de Milagres 📸
+- Mirante para foto 📸
+
+*INCLUSO PASSEIO DE JANGADA:*
+- Corredor da beleza (foto na boia de melancia e rede no banco de areia). 
+- Santuário dos Peixinhos. 
+- Poço fundo, para quem quiser pular da jangada. 
+Duração: 3:00h ⏱️
+________________________
+
+*TERCEIRO DIA:* 
+Maragogi.
+Paradas durante o roteiro:
+- Letreiro de Maragogi 📸
+- Coração e balanço 📸
+
+*INCLUSO PASSEIO DE LANCHA:*
+- Caminho de Moisés
+- Praia de Antunes
+- Piscina Natural
+Duração: 2:30h ⏱️
+
+- PASSEIO REALIZADO NO CARRO PRIVATIVO! 
+
+*VALORES:*
+- Até 2 pessoas: R$ 1.730,00
+- Até 4 pessoas: R$ 2.310,00
+
+Obs.: Promoção para pagamento em dinheiro ou Pix. Parcelamos em até 10X no cartão (consultar taxa da operadora).
+
+Para mais detalhes, visite nosso Instagram:
+https://www.instagram.com/partiualagoasof`,
+    promoPrice: 1730.00,
+    image: "https://i.imgur.com/GZ5l2gC.jpeg",
     isPromo: true,
-    discount: "15% Off"
+    discount: "Pacote Exclusivo",
+    priceLabel: "A partir de",
+    isPackage: true,
   },
   {
     id: 2,
@@ -49,7 +100,7 @@ export const CATEGORIES: Category[] = [
         shortDescription: "Famosa por suas piscinas naturais e ondas perfeitas para o surf.",
         fullDescription: "A Praia do Francês é um dos cartões postais de Alagoas, dividida entre uma área de águas calmas protegida por recifes e outra de mar aberto, ideal para surfistas. Um destino versátil para toda a família.",
         promoPrice: 40.00,
-        image: "https://picsum.photos/seed/frances/400/400"
+        image: "https://i.imgur.com/GZ5l2gC.jpeg"
       },
       {
         id: 5,
@@ -91,7 +142,7 @@ export const CATEGORIES: Category[] = [
         shortDescription: "O Caribe Brasileiro! Mergulhe em águas transparentes e veja peixes coloridos.",
         fullDescription: "Maragogi é mundialmente conhecida por suas galés, enormes piscinas naturais a quilômetros da costa. Um passeio de catamarã te leva a este paraíso para um mergulho inesquecível.",
         promoPrice: 120.00,
-        image: "https://picsum.photos/seed/maragogi/400/400"
+        image: "https://i.imgur.com/GZ5l2gC.jpeg"
       },
       {
         id: 9,
