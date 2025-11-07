@@ -6,7 +6,8 @@ import TourCard from './components/TourCard';
 import AdminLoginModal from './components/AdminLoginModal';
 import EditPromotionModal from './components/EditPromotionModal';
 import { Tour } from './types';
-import { PROMOTIONS, CATEGORIES } from './constants';
+import { CATEGORIES } from './constants';
+import { getPromotions, savePromotions } from './services/tourService';
 
 const App: React.FC = () => {
   const [isPromoModalOpen, setIsPromoModalOpen] = useState<boolean>(false);
@@ -14,17 +15,8 @@ const App: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [editingTour, setEditingTour] = useState<Tour | null>(null);
-  
-  // Initialize promotions from localStorage or fall back to constants
-  const [promotions, setPromotions] = useState<Tour[]>(() => {
-    try {
-      const savedPromotions = localStorage.getItem('partiuAlagoasPromotions');
-      return savedPromotions ? JSON.parse(savedPromotions) : PROMOTIONS;
-    } catch (error) {
-      console.error("Failed to parse promotions from localStorage", error);
-      return PROMOTIONS;
-    }
-  });
+  const [promotions, setPromotions] = useState<Tour[]>([]);
+  const [isLoadingPromotions, setIsLoadingPromotions] = useState<boolean>(true);
 
   // Effect to show promo modal on initial load
   useEffect(() => {
@@ -32,14 +24,23 @@ const App: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Effect to save promotions to localStorage whenever they change
+  // Effect to fetch initial promotions
   useEffect(() => {
-    try {
-      localStorage.setItem('partiuAlagoasPromotions', JSON.stringify(promotions));
-    } catch (error) {
-      console.error("Failed to save promotions to localStorage", error);
-    }
-  }, [promotions]);
+    const loadPromotions = async () => {
+      setIsLoadingPromotions(true);
+      try {
+        const data = await getPromotions();
+        setPromotions(data);
+      } catch (error) {
+        console.error("Failed to load promotions", error);
+        // Optionally set some error state to show in UI
+      } finally {
+        setIsLoadingPromotions(false);
+      }
+    };
+    loadPromotions();
+  }, []);
+
 
   const handleSelectTour = (tour: Tour) => {
     setIsPromoModalOpen(false);
@@ -63,11 +64,18 @@ const App: React.FC = () => {
     setIsAdmin(false);
   };
 
-  const handleSaveTour = (updatedTour: Tour) => {
-    setPromotions(prevPromos => 
-      prevPromos.map(p => p.id === updatedTour.id ? updatedTour : p)
-    );
+  const handleSaveTour = async (updatedTour: Tour) => {
+    const updatedPromotions = promotions.map(p => p.id === updatedTour.id ? updatedTour : p);
+    setPromotions(updatedPromotions); // Optimistic UI update
     setEditingTour(null);
+    
+    try {
+      await savePromotions(updatedPromotions);
+    } catch (error) {
+      console.error("Failed to save tour update.", error);
+      alert("Erro ao salvar a promoção. Por favor, tente novamente.");
+      // Optionally revert state here
+    }
   };
 
   return (
@@ -95,15 +103,19 @@ const App: React.FC = () => {
               Destaques
             </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-              {promotions.map((tour) => (
-                <TourCard 
-                  key={tour.id} 
-                  tour={tour} 
-                  onClick={() => handleSelectTour(tour)}
-                  isAdmin={isAdmin}
-                  onEdit={() => setEditingTour(tour)}
-                />
-              ))}
+              {isLoadingPromotions ? (
+                <p className="text-white col-span-full">Carregando destaques...</p>
+              ) : (
+                promotions.map((tour) => (
+                  <TourCard 
+                    key={tour.id} 
+                    tour={tour} 
+                    onClick={() => handleSelectTour(tour)}
+                    isAdmin={isAdmin}
+                    onEdit={() => setEditingTour(tour)}
+                  />
+                ))
+              )}
             </div>
           </section>
         </div>
